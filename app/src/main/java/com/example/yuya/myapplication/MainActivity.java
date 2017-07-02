@@ -1,28 +1,20 @@
 package com.example.yuya.myapplication;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Toast;
-
-import org.datavec.api.util.ClassPathResource;
-import org.deeplearning4j.berkeley.Pair;
-import org.deeplearning4j.test2;
+import android.view.View;
+import android.widget.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.nd4j.linalg.api.ndarray.INDArray;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,8 +37,22 @@ public class MainActivity extends AppCompatActivity {
         contactList = new ArrayList<>();
 
         lv = (ListView) findViewById(R.id.listView);
+        //lv.setOnItemClickListener((AdapterView.OnItemClickListener) new ListItemClickListener());
+        lv.setOnItemClickListener(new ListItemClickListener());
 
         new GetContacts().execute();
+    }
+
+    public class ListItemClickListener implements AdapterView.OnItemClickListener {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            ListView listview = (ListView) parent;
+            HashMap<String, String> item = (HashMap) listview.getItemAtPosition(position);
+            //String item = "aaa";
+
+            Intent intent = new Intent(MainActivity.this,SecondActivity.class);
+            intent.putExtra("SELECTED_PICT",item.get("url"));
+            startActivity(intent);
+        }
     }
 
     /**
@@ -88,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                         String id = c.getString("author");
                         String name = c.getString("title");
                         String email = c.getString("description");
-                        String address = c.getString("url");
+                        String url = c.getString("url");
                         String gender = c.getString("urlToImage");
                         String mobile = c.getString("publishedAt");
 
@@ -106,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                         contact.put("name", name);
                         contact.put("email", email);
                         contact.put("mobile", mobile);
+                        contact.put("url", url);
 
                         // adding contact to contact list
                         contactList.add(contact);
@@ -160,52 +167,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private class test{
-        private final Logger log = LoggerFactory.getLogger(test2.class);
-
-        public void main(String[] args) throws Exception {
-
-            ParagraphVectors paragraphVectors;
-            LabelAwareIterator iterator;
-            TokenizerFactory tokenizerFactory;
-            paragraphVectors= readParagraphVectors("pathToSaveModel3");
-
-            ClassPathResource resource = new ClassPathResource("paravec/labeled");
-            // build a iterator for our dataset
-            iterator = new FileLabelAwareIterator.Builder()
-                    .addSourceFolder(resource.getFile())
-                    .build();
-
-            tokenizerFactory = new DefaultTokenizerFactory();
-            tokenizerFactory.setTokenPreProcessor(new CommonPreprocessor());
-
-            ClassPathResource unClassifiedResource = new ClassPathResource("paravec/unlabeled");
-            FileLabelAwareIterator unClassifiedIterator = new FileLabelAwareIterator.Builder()
-                    .addSourceFolder(unClassifiedResource.getFile())
-                    .build();
-
-            MeansBuilder meansBuilder = new MeansBuilder(
-                    (InMemoryLookupTable<VocabWord>)paragraphVectors.getLookupTable(),
-                    tokenizerFactory);
-            LabelSeeker seeker = new LabelSeeker(iterator.getLabelsSource().getLabels(),
-                    (InMemoryLookupTable<VocabWord>) paragraphVectors.getLookupTable());
-
-            while (unClassifiedIterator.hasNextDocument()) {
-                LabelledDocument document = unClassifiedIterator.nextDocument();
-                INDArray documentAsCentroid = meansBuilder.documentAsVector(document);
-                List<Pair<String, Double>> scores = seeker.getScores(documentAsCentroid);
-
-         /*
-          please note, document.getLabel() is used just to show which document we're looking at now,
-          as a substitute for printing out the whole document name.
-          So, labels on these two documents are used like titles,
-          just to visualize our classification done properly
-         */
-                log.info("Document '" + document.getLabel() + "' falls into the following categories: ");
-                for (Pair<String, Double> score: scores) {
-                    log.info("        " + score.getFirst() + ": " + score.getSecond());
-                }
-            }
-        }
-    }
 }

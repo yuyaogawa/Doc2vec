@@ -2,8 +2,6 @@ package org.deeplearning4j;
 
 import org.datavec.api.util.ClassPathResource;
 import org.deeplearning4j.berkeley.Pair;
-import org.deeplearning4j.examples.nlp.paragraphvectors.tools.LabelSeeker;
-import org.deeplearning4j.examples.nlp.paragraphvectors.tools.MeansBuilder;
 import org.deeplearning4j.models.embeddings.inmemory.InMemoryLookupTable;
 import org.deeplearning4j.models.paragraphvectors.ParagraphVectors;
 import org.deeplearning4j.models.word2vec.VocabWord;
@@ -13,14 +11,13 @@ import org.deeplearning4j.text.documentiterator.LabelledDocument;
 import org.deeplearning4j.text.tokenization.tokenizer.preprocessor.CommonPreprocessor;
 import org.deeplearning4j.text.tokenization.tokenizerfactory.DefaultTokenizerFactory;
 import org.deeplearning4j.text.tokenization.tokenizerfactory.TokenizerFactory;
+import org.deeplearning4j.tools.LabelSeeker;
+import org.deeplearning4j.tools.MeansBuilder;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.List;
-
 import static org.deeplearning4j.models.embeddings.loader.WordVectorSerializer.readParagraphVectors;
-
 
 /**
  * Created by yuya on 6/17/2017.

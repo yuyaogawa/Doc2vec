@@ -1,6 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/INDEX.LIST'
+    }
     compileSdkVersion 26
     buildToolsVersion "23.0.1"
     defaultConfig {
@@ -18,17 +29,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/INDEX.LIST'
-    }
 
 }
 
@@ -40,8 +40,12 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
     compile 'com.android.support:design:26.0.0-alpha1'
     testCompile 'junit:junit:4.12'
+    
+    //add by yuya
     compile 'org.deeplearning4j:deeplearning4j-core:0.7.2'
+    compile 'org.deeplearning4j:deeplearning4j-nlp:0.7.2'
     compile 'org.nd4j:nd4j-native:0.7.2'
-    compile 'org.nd4j:nd4j-native:0.7.2:android-x86'
+    //compile 'org.nd4j:nd4j-native:0.7.2:android-x86'
     compile 'org.nd4j:nd4j-native:0.7.2:android-arm'
+
 }

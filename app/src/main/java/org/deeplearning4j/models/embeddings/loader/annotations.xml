@@ -1,0 +1,5 @@
+<root>
+    <item name='org.deeplearning4j.models.embeddings.loader.WordVectorSerializer org.deeplearning4j.models.paragraphvectors.ParagraphVectors readParagraphVectorsFromText(java.lang.String)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+</root>
